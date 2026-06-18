@@ -269,6 +269,7 @@ function generateFigure(filename, classNames = []) {
             artistHtml = artistHtml.replace(/<(?!\/?a ?)[^>]+>/g, '');
             
             // 2. KOREKSI TEKS GANDA: Bersihkan masalah "Unknown author" dari Wikimedia
+          artistHtml = artistHtml.replace(/Tak diketahuiTak diketahui/gi, 'Tak diketahui');
             artistHtml = artistHtml.replace(/Unknown authorUnknown author/gi, 'Unknown author');
             artistHtml = artistHtml.replace(/UnknownUnknown/gi, 'Unknown'); // Jaga-jaga jika formatnya hanya "Unknown"
             
