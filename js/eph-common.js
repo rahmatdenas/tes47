@@ -249,7 +249,7 @@ function displayRecordDetails(qid) {
 // a figure HTML string, returns it, and calls the Commons API to fetch
 // and insert the image attribution if needed. If the filename is false,
 // the figure element will indicate "No photo available".
-function generateFigure(filename, classNames = []) {
+function generateFigure(filename, title = "Masjid", classNames = []) {
   if (filename) {
     // 1. Buat ID unik untuk setiap figure
     let uniqueId = 'caption-' + Math.random().toString(36).substr(2, 9);
@@ -320,7 +320,7 @@ function generateFigure(filename, classNames = []) {
     );
   }
 else {
-    let namaAmanURL = encodeURIComponent(record.title);
+let namaAmanURL = encodeURIComponent(title);
     let gFormFotoUrl = `https://docs.google.com/forms/d/e/1FAIpQLSd7_u-7yCwDtXIkDO--bILry6mWGoRCnnfSumL_PEjfle0aLg/viewform?usp=pp_url&entry.2138396049=${namaAmanURL}`;
     return `<figure class="${classNames.join(' ')} nodata">Belum ada foto. <a href="${gFormFotoUrl}" target="_blank" rel="noopener noreferrer" style="border:none;" class="sunting-linktambah">Tambahkan!</a></figure>`;
   }
