@@ -579,16 +579,16 @@ function applyIntersectionFilter(preventZoom = false) {
       if (activeFeatures.has('article') && record.articleTitle === undefined) matchFeature = false;
     }
 
-    // Cek pencarian teks dengan keamanan ekstra
-let matchSearch = true;
+// === Cek pencarian teks (Normalisasi Spasi, Strip, dan Apostrof) ===
+    let matchSearch = true;
     if (currentSearchQuery.trim() !== '') {
       
-      // 1. Buang semua spasi (\s) dan strip (-) dari kata kunci pencarian
-      let cleanQuery = currentSearchQuery.replace(/[-\s]/g, '');
+      // 1. Buang semua spasi (\s), strip (-), dan tanda kutip tunggal (') dari kata kunci
+      let cleanQuery = currentSearchQuery.replace(/[-'\s]/g, '');
       
       if (record.indexTitle) {
-        // 2. Buang juga semua spasi dan strip dari nama masjid di database
-        let cleanTitle = record.indexTitle.toLowerCase().replace(/[-\s]/g, '');
+        // 2. Buang juga karakter yang sama dari nama masjid di database
+        let cleanTitle = record.indexTitle.toLowerCase().replace(/[-'\s]/g, '');
         
         // 3. Cocokkan keduanya dalam versi yang sudah "bersih"
         matchSearch = cleanTitle.includes(cleanQuery);
