@@ -3,8 +3,6 @@
 const CHUNK_SIZE = 35;
 var currentRenderIndex = 0;
 var currentFilteredRecords = [];
-
-// KUNCI PERBAIKAN: Variabel penahan telinga ganda
 var isFilterEventAttached = false; 
 
 function formatWikidataDate(dateString, precision) {
@@ -132,6 +130,10 @@ function populateCoordinatesData() {
     dynamicQuery,
     function(result) {
       let record = Records[result.siteQid.value];
+      
+      // === KUNCI PENGAMAN (ANTI CRASH DATA GAIB) ===
+      if (!record) return; 
+
       let wktBits = result.coord.value.split(/\(|\)| /);
       record.lat = parseFloat(wktBits[2]);
       record.lon = parseFloat(wktBits[1]);
@@ -150,6 +152,10 @@ function populateImageAndWikipediaData() {
     dynamicQuery,
     function(result) {
       let record = Records[result.siteQid.value];      
+      
+      // === KUNCI PENGAMAN (ANTI CRASH DATA GAIB) ===
+      if (!record) return; 
+
       if ('image' in result) {
         if (!record.imageFilename) {
           record.imageFilename = extractImageFilename(result.image);
@@ -356,9 +362,6 @@ var activeFeatures = new Set();
 var currentSearchQuery = '';
 
 function generateFilterSelect() {
-  // =================================================================
-  // KUNCI PERBAIKAN: RESET PAKSA VARIABEL & UI SETIAP KALI DATA BARU
-  // =================================================================
   currentRegionFilter = 'all';
   currentUsiaFilter = 'all';
   activeFeatures.clear();
@@ -373,11 +376,9 @@ function generateFilterSelect() {
   let btnAll = document.getElementById('btn-all');
   if (btnAll) btnAll.classList.add('active');
   document.querySelectorAll('.feat-btn:not(#btn-all)').forEach(b => b.classList.remove('active'));
-  // =================================================================
 
   let selectRegion = document.getElementById('filter-region');
 
-  // Setiap kali data ditarik, kita perbarui opsi provinsi di dropdown
   selectRegion.innerHTML = `<option value="all">Semua Wilayah – ${ProvinceIndex['all'].total}</option>`;
   
   Object.keys(ProvinceIndex)
@@ -393,7 +394,6 @@ function generateFilterSelect() {
 
   applyIntersectionFilter(true);
   
-  // PASANG EVENT LISTENER HANYA 1 KALI
   if (!isFilterEventAttached) {
     
     selectRegion.addEventListener('change', function() {
@@ -467,7 +467,6 @@ function generateFilterSelect() {
       });
     }
 
-    // Kunci pintunya agar event listener ini tidak ditambahkan berulang kali
     isFilterEventAttached = true; 
   }
 }
@@ -613,7 +612,7 @@ function generateRecordDetails(qid) {
   } else {
     let namaAmanURL = encodeURIComponent(record.title);
     let gFormUrl = `https://docs.google.com/forms/d/e/1FAIpQLSeHMSn6cwcgbZ0xx1CJ5tGXDQacYgzRZUG51STByKUROWXgmg/viewform?usp=pp_url&entry.2138396049=${namaAmanURL}`;
-    articleHtml = `<div class="article main-text nodata"><p>Bangunan ini belum memiliki artikel. <a href="${gFormUrl}" target="_blank" rel="noopener noreferrer" class="sunting-linktambah">Tambahkan!</a></p></div>`;
+    articleHtml = `<div class="article main-text nodata"><p>Entitas ini belum memiliki artikel. <a href="${gFormUrl}" target="_blank" rel="noopener noreferrer" class="sunting-linktambah">Tambahkan!</a></p></div>`;
   }
   
   let wikiUrlUtama = `https://www.wikidata.org/wiki/${qid}`;
@@ -628,7 +627,7 @@ function generateRecordDetails(qid) {
     }
   }
 
-  let teksJudul = isBersejarah ? 'Bangunan Bersejarah' : 'Informasi';
+  let teksJudul = isBersejarah ? 'Situs Bersejarah' : 'Informasi';
 
   let designationsHtml = `<h2 style="margin-top:10px">${teksJudul} ${tautanSuntingRingkasan}</h2>`;
   designationsHtml += '<ul class="designations">';
