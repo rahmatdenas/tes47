@@ -102,11 +102,11 @@ var currentKategoriUtama = 'general';
 
 // === UBAH FUNGSI DETEKTIF MENJADI SEPERTI INI ===
 function tentukanKategoriKueri(inputTxt) {
-  if (inputTxt.includes('Q5')) return 'tokoh';
+  // Gunakan Regex \b (word boundary) agar hanya persis 'Q5' yang tertangkap
+  if (/\bQ5\b/.test(inputTxt)) return 'tokoh';
+  
   if (inputTxt.includes('Q47461344')) return 'publikasi';
   if (inputTxt.includes('Q7725634')) return 'fiksi'; 
-  
-  // === TAMBAHAN BARU DI SINI ===
   if (inputTxt.includes('Q34770')) return 'bahasa';
   if (inputTxt.includes('Q19861951')) return 'kuliner'; 
   
