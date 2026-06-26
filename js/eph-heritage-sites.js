@@ -939,9 +939,19 @@ function displayArticleExtract(title, elem) {
       let kumpulanParagraf = rawExtract.match(/<p[^>]*>[\s\S]+?<\/p>/g);
       let paragrafPilihan = kumpulanParagraf ? kumpulanParagraf.find(text => text.length > 50) : null;
 
-      if (paragrafPilihan) {
-        // 3. KUNCI PERBAIKAN: Cukur habis <br>, \n, dan spasi yang menempel persis setelah <p> pembuka
+if (paragrafPilihan) {
+        // 1. Cukur habis spasi/br/enter yang menempel persis setelah <p> pembuka
         paragrafPilihan = paragrafPilihan.replace(/^<p[^>]*>(\s|<br\s*\/?>|&nbsp;)*/i, '<p>');
+        
+        // 2. PENYAPU ERROR WIKIPEDIA (Diperbarui untuk kasus "code: jv is deprecated")
+        // Membidik dan menghapus <span>...code: [apapun] is deprecated...</span>
+        paragrafPilihan = paragrafPilihan.replace(/<span[^>]*>[^<]*code:\s*[a-z\-]+\s*is deprecated[^<]*<\/span>/gi, '');
+        
+        // Membidik sisa error umum lainnya (Lua error, Script error, dll) di dalam tag apapun
+        paragrafPilihan = paragrafPilihan.replace(/<[^>]*>[^<]*(is deprecated|Lua error|Script error)[^<]*<\/[^>]*>/gi, '');
+        
+        // (Opsional) Jika teks errornya bocor keluar dari <span>, hapus teks mentahnya
+        paragrafPilihan = paragrafPilihan.replace(/code:\s*[a-z\-]+\s*is deprecated/gi, '');
       } else {
         // Sabuk pengaman jika artikelnya terlalu pendek atau formatnya aneh
         paragrafPilihan = '<p>Ringkasan artikel belum memadai.</p>'; 
