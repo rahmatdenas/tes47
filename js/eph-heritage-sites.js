@@ -932,14 +932,31 @@ function displayArticleExtract(title, elem) {
       titles    : title,
     },
     function(data) {
+      // 1. Ambil ekstrak mentah
+      let rawExtract = Object.values(data.query.pages)[0].extract;
+      
+      // 2. Cari semua tag <p>, dan pilih yang lebih dari 50 karakter (Logika lama yang sudah bagus)
+      let kumpulanParagraf = rawExtract.match(/<p[^>]*>[\s\S]+?<\/p>/g);
+      let paragrafPilihan = kumpulanParagraf ? kumpulanParagraf.find(text => text.length > 50) : null;
+
+      if (paragrafPilihan) {
+        // 3. KUNCI PERBAIKAN: Cukur habis <br>, \n, dan spasi yang menempel persis setelah <p> pembuka
+        paragrafPilihan = paragrafPilihan.replace(/^<p[^>]*>(\s|<br\s*\/?>|&nbsp;)*/i, '<p>');
+      } else {
+        // Sabuk pengaman jika artikelnya terlalu pendek atau formatnya aneh
+        paragrafPilihan = '<p>Ringkasan artikel belum memadai.</p>'; 
+      }
+
+      // 4. Rakit dan cetak ke layar
       elem.innerHTML =
-        Object.values(data.query.pages)[0].extract.match(/<p[^]+?<\/p>/g).find(text => text.length > 50) +
+        paragrafPilihan +
         '<p class="wikipedia-link">' +
           `<a href="https://id.wikipedia.org/wiki/${encodeURIComponent(title)}" target="_blank">` +
             '<img src="img/wikipedia_tiny_logo.png" alt="" />' +
             '<span>Baca selengkapnya di Wikipedia</span>' +
           '</a>' +
         '</p>';
+        
       elem.classList.remove('loading');
     }
   );
