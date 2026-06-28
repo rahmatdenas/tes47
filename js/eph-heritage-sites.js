@@ -543,7 +543,7 @@ function renderDynamicDataInPanel(qid) {
     arsitek: 'Arsitek', gayaList: 'Gaya arsitektur', populasi: 'Jumlah penduduk',
     kepalaDaerah: 'Kepala daerah', jalurList: 'Jalur penghubung', jumlahKoleksi: 'Jumlah koleksi',
     spesialisasiList: 'Spesialisasi', tglTemu: 'Tanggal penemuan', tempatTemu: 'Lokasi penemuan',
-    bahasaList: 'Bahasa', bentukList: 'Bentuk karya', penulisList: 'Penulis/Pembuat',
+    bahasaList: 'Bahasa', bentukList: 'Bentuk karya', penulisList: 'Penulis/pencipta',
     subjekList: 'Subjek utama', kolektorList: 'Koleksi dari', pemredList: 'Pimpinan redaksi',
     pendiriList: 'Pendiri', penerbit: 'Penerbit', bahanList: 'Bahan/komposisi',
     caraList: 'Cara pembuatan', penutur: 'Jumlah penutur', tglWafat: 'Tanggal wafat',
