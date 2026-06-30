@@ -356,7 +356,7 @@ function populateCoordinatesData() {
   
   // 2. Daftarkan klaster apa saja yang TIDAK PUNYA koordinat langsung (Cek lagi Lukisan Lontar dan Naskah?)
   const klasterTanpaKoordinatLangsung = [
-    'Hidangan', 'Pakaian', 'Tari dan pertunjukan', 'Ritual dan upacara', 
+    'Hidangan', 'Pakaian', 'Tari dan pertunjukan', 'Ritual dan upacara',  'Artefak',
     'Budaya rakyat', 'Lukisan', 'Lontar', 'Naskah', 'Perang & konflik',
     'Tokoh', 'Bahasa', 'Publikasi', 'Media massa', 'Latar karya sastra'
   ];
@@ -1063,13 +1063,13 @@ let isBersejarah = false;
     prefixLokasi = 'Tempat terbit';
     prefixTahun = 'Terbit perdana';
   } else if (['Lukisan'].includes(currentNamaKlaster)) {
-    prefixLokasi = 'Lokasi';
+    prefixLokasi = 'Koleksi';
     prefixTahun = 'Dilukis';
   } else if (['Lontar', 'Naskah'].includes(currentNamaKlaster)) {
-    prefixLokasi = 'Lokasi';
-    prefixTahun = 'Disalin';
+    prefixLokasi = 'Koleksi';
+    prefixTahun = 'Ditulis';
   } else if (['Gempa bumi dan tsunami', 'Peristiwa lainnya', 'Perang & konflik', 'Bencana lainnya'].includes(currentNamaKlaster)) {
-    prefixLokasi = 'Tempat kejadian/terdampak';
+    prefixLokasi = 'Pusat kejadian/terdampak';
     prefixTahun = 'Pada';
   }   else if (['Situs arkeologi'].includes(currentNamaKlaster)) {
     prefixLokasi = 'Terletak di';
