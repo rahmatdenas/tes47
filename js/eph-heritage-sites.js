@@ -560,7 +560,7 @@ const labelKamus = {
     pendiriList: 'Pendiri', penerbit: 'Penerbit', bahanList: 'Bahan utama',
     caraList: 'Cara pembuatan', penutur: 'Jumlah penutur', tglWafat: 'Wafat',
     pekerjaanList: 'Pekerjaan', pegunungan: 'Bagian dari', korban: 'Korban jiwa',
-    agamaList: 'Agama', bagianDari: 'Bagian dari',
+    agamaList: 'Agama', bagianDari: 'Bagian dari', berakhirPada: 'Berhenti terbit',
   pencipta: 'Pencipta', genreList: 'Genre',
     panjang: 'Panjang', koleksiKaryaList: 'Tempat koleksi karya disimpan',
     tinggi: 'Tinggi', lebar: 'Lebar',
@@ -625,7 +625,7 @@ else if (key === 'lamanResmi') {
   const displayUrl = rawValue.replace(/^https?:\/\/(www\.)?/, '');
   formattedValue = `<span class="koordinat-link"><a href="${rawValue}" target="_blank" rel="noopener noreferrer" style="word-break: break-all;">${displayUrl}</a></span>`;
 }
-      else if (key === 'tglTemu' || key === 'tglWafat') {
+else if (key === 'tglTemu' || key === 'tglWafat' || key === 'berakhirPada')
         let [waktu, presisi] = rawValue.split('|');
         formattedValue = formatWikidataDate(waktu, presisi);
       }
@@ -686,7 +686,7 @@ function populateMapAndIndex() {
   let mapMarkers = [];
   Object.entries(Records).forEach(entry => {
     let qid = entry[0], record = entry[1];
-    if (!record.isCompound && record.lat && record.lon) {
+if (!record.isCompound && record.lat !== undefined && record.lon !== undefined) {
       let mapMarker = L.marker(
         [record.lat, record.lon],
         { icon: L.ExtraMarkers.icon({ icon: '', markerColor : 'orange-dark' }) },
@@ -1095,7 +1095,7 @@ let isBersejarah = false;
 
   // 3. Render HTML Lokasi
   let infoLokasiHtml = '';
-  if (record.lat && record.lon) {
+if (record.lat !== undefined && record.lon !== undefined) {
     let mapsUrl = `https://www.google.com/maps?q=${record.lat},${record.lon}`;
     infoLokasiHtml = `<p class="koordinat-link">${prefixLokasi}: <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" title="Buka di Google Maps">${namaLokasi}</a></p>`;
   } else {
