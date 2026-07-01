@@ -1117,7 +1117,7 @@ if (record.lat !== undefined && record.lon !== undefined) {
   // Sisa perakitan HTML ke panel...
   let eventsHtmlPlaceholder = `
     <div id="events-container-${qid}" class="loading" style="margin-top: 8px; min-height: 24px;">
-      <div class="loader" style="width: 20px; height: 20px; border-width: 2px; margin: 0;"></div>
+      <div class="loader" style="width: 20px; height: 20px; border-width: 2px; margin-bottom: 10px;"></div>
     </div>`;
 
   designationsHtml +=
